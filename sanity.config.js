@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'origines-media-cms',
 
-  projectId: 'sf5v7lj3',
+  projectId: 'r941i081',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

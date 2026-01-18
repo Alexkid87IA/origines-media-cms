@@ -27,7 +27,10 @@ export default {
       title: 'Couleur principale (hex)',
       type: 'string',
       description: 'Exemple: #8B5CF6',
-      validation: Rule => Rule.required()
+      validation: Rule => Rule.required().regex(/^#[0-9A-Fa-f]{6}$/, {
+        name: 'hex color',
+        invert: false
+      }).error('Doit être un code couleur hexadécimal valide (ex: #8B5CF6)')
     },
     
     // === CONTENU HERO ===

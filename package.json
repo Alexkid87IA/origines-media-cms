@@ -16,10 +16,12 @@
   ],
   "dependencies": {
     "@sanity/client": "^7.6.0",
-    "@sanity/vision": "^3.92.0",
+    "@sanity/vision": "^4.10.1",
+    "chalk": "^5.4.1",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^3.92.0",
+    "react-is": "^19.1.0",
+    "sanity": "^4.10.1",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {

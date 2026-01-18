@@ -1,48 +1,41 @@
+// schemaTypes/blockContent.js
+// Contenu riche avec tous les blocs éditoriaux Origines Media
+
 import {defineType, defineArrayMember} from 'sanity'
 
-/**
- * This is the schema definition for the rich text fields used for
- * for this blog studio. When you import it in schemas.js it can be
- * reused in other parts of the studio with:
- *  {
- *    name: 'someName',
- *    title: 'Some title',
- *    type: 'blockContent'
- *  }
- */
 export default defineType({
-  title: 'Block Content',
+  title: 'Contenu enrichi',
   name: 'blockContent',
   type: 'array',
   of: [
+    // ========== BLOC TEXTE DE BASE ==========
     defineArrayMember({
-      title: 'Block',
+      title: 'Bloc texte',
       type: 'block',
-      // Styles let you set what your user can mark up blocks with. These
-      // correspond with HTML tags, but you can set any title or value
-      // you want and decide how you want to deal with it where you want to
-      // use your content.
       styles: [
         {title: 'Normal', value: 'normal'},
-        {title: 'H1', value: 'h1'},
-        {title: 'H2', value: 'h2'},
-        {title: 'H3', value: 'h3'},
-        {title: 'H4', value: 'h4'},
-        {title: 'Quote', value: 'blockquote'},
+        {title: 'Titre H2', value: 'h2'},
+        {title: 'Titre H3', value: 'h3'},
+        {title: 'Titre H4', value: 'h4'},
+        {title: 'Citation', value: 'blockquote'},
+        {title: 'Chapô / Lead', value: 'lead'},
       ],
-      lists: [{title: 'Bullet', value: 'bullet'}],
-      // Marks let you mark up inline text in the block editor.
+      lists: [
+        {title: 'Liste à puces', value: 'bullet'},
+        {title: 'Liste numérotée', value: 'number'}
+      ],
       marks: {
-        // Decorators usually describe a single property – e.g. a typographic
-        // preference or highlighting by editors.
         decorators: [
-          {title: 'Strong', value: 'strong'},
-          {title: 'Emphasis', value: 'em'},
+          {title: 'Gras', value: 'strong'},
+          {title: 'Italique', value: 'em'},
+          {title: 'Souligné', value: 'underline'},
+          {title: 'Barré', value: 'strike-through'},
+          {title: 'Code', value: 'code'},
+          {title: 'Surligné', value: 'highlight'}
         ],
-        // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
           {
-            title: 'URL',
+            title: 'Lien',
             name: 'link',
             type: 'object',
             fields: [
@@ -50,18 +43,133 @@ export default defineType({
                 title: 'URL',
                 name: 'href',
                 type: 'url',
+                validation: Rule => Rule.uri({
+                  scheme: ['http', 'https', 'mailto', 'tel']
+                })
               },
+              {
+                title: 'Ouvrir dans un nouvel onglet',
+                name: 'blank',
+                type: 'boolean',
+                initialValue: true
+              }
             ],
           },
+          {
+            title: 'Lien interne',
+            name: 'internalLink',
+            type: 'object',
+            fields: [
+              {
+                title: 'Article',
+                name: 'reference',
+                type: 'reference',
+                to: [{ type: 'production' }]
+              }
+            ]
+          }
         ],
       },
     }),
-    // You can add additional types here. Note that you can't use
-    // primitive types such as 'string' and 'number' in the same array
-    // as a block type.
+
+    // ========== MÉDIAS ==========
     defineArrayMember({
       type: 'image',
+      title: 'Image',
       options: {hotspot: true},
+      fields: [
+        {
+          name: 'caption',
+          type: 'string',
+          title: 'Légende',
+        },
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Texte alternatif (SEO)',
+          description: 'Important pour le référencement et l\'accessibilité'
+        },
+        {
+          name: 'credit',
+          type: 'string',
+          title: 'Crédit photo'
+        },
+        {
+          name: 'size',
+          type: 'string',
+          title: 'Taille',
+          options: {
+            list: [
+              {title: 'Normale', value: 'normal'},
+              {title: 'Pleine largeur', value: 'full'},
+              {title: 'Petite (alignée)', value: 'small'}
+            ]
+          },
+          initialValue: 'normal'
+        }
+      ]
+    }),
+    defineArrayMember({
+      type: 'youtube',
+      title: 'Vidéo YouTube'
+    }),
+    defineArrayMember({
+      type: 'imageGallery',
+      title: 'Galerie d\'images'
+    }),
+    defineArrayMember({
+      type: 'audioPlayer',
+      title: 'Audio / Podcast'
+    }),
+
+    // ========== EMBEDS SOCIAUX ==========
+    defineArrayMember({
+      type: 'socialEmbed',
+      title: 'Embed Social (Instagram, Twitter, TikTok)'
+    }),
+
+    // ========== CITATIONS & TÉMOIGNAGES ==========
+    defineArrayMember({
+      type: 'styledQuote',
+      title: 'Citation stylée'
+    }),
+
+    // ========== BLOCS ÉDITORIAUX ==========
+    defineArrayMember({
+      type: 'callout',
+      title: 'Encadré / Callout'
+    }),
+    defineArrayMember({
+      type: 'keyTakeaways',
+      title: 'Points clés à retenir'
+    }),
+    defineArrayMember({
+      type: 'accordion',
+      title: 'Accordéon / FAQ'
+    }),
+    defineArrayMember({
+      type: 'progressSteps',
+      title: 'Étapes / Timeline'
+    }),
+
+    // ========== CALL TO ACTION ==========
+    defineArrayMember({
+      type: 'ctaButton',
+      title: 'Bouton CTA'
+    }),
+    defineArrayMember({
+      type: 'newsletterCta',
+      title: 'Inscription Newsletter'
+    }),
+    defineArrayMember({
+      type: 'relatedArticles',
+      title: 'Articles liés'
+    }),
+
+    // ========== RECOMMANDATIONS ==========
+    defineArrayMember({
+      type: 'recommendationBlock',
+      title: 'Recommandation (livre, film, podcast...)'
     }),
   ],
 })

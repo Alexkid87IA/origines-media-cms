@@ -27,6 +27,13 @@ export default {
       type: 'text',
       rows: 3
     },
+    {
+      name: 'author',
+      title: 'Auteur',
+      type: 'reference',
+      to: [{ type: 'author' }],
+      description: 'Auteur de cet épisode'
+    },
     // === SÉRIE & NUMÉROTATION ===
     {
       name: 'serie',

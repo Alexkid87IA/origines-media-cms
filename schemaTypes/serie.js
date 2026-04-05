@@ -70,6 +70,13 @@ export default {
         title: 'Mise en avant',
         type: 'boolean',
         initialValue: false
+      },
+      {
+        name: 'author',
+        title: 'Auteur',
+        type: 'reference',
+        to: [{ type: 'author' }],
+        description: 'Auteur/créateur de cette série'
       }
     ],
     preview: {

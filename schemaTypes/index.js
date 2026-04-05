@@ -1,6 +1,3 @@
-// schemaTypes/index.js
-// Exports de tous les schémas Sanity pour Origines Media
-
 import blockContent from './blockContent'
 import author from './author'
 import tag from './tag'
@@ -13,35 +10,30 @@ import episode from './episode'
 // Types de contenu secondaires et spécifiques
 import portrait from './portrait'
 import video from './video'
+import recommendation from './recommendation'
+import teamMember from './teamMember'
 
 // Outils de taxonomie et de structuration
 import verticale from './verticale'
 import format from './format'
 import univers from './univers'
 
-// Configuration
-import teamMember from './teamMember'
-import siteSettings from './siteSettings'
+// Types de blocs rich text
+import keyTakeaways from './keyTakeaways'
+import youtube from './youtube'
+import quote from './quote'
+import accordion from './accordion'
 
-// Récits (articles longs)
-import recit from './recit'
-
-// Recommandations culturelles
-import recommendation from './recommendation'
-
-// ========== BLOCS DE CONTENU RICHES ==========
+// Types objets pour blockContent
+import imageGallery from './objects/imageGallery'
+import audioPlayer from './objects/audioPlayer'
+import socialEmbed from './objects/socialEmbed'
 import styledQuote from './objects/styledQuote'
 import callout from './objects/callout'
-import accordion from './objects/accordion'
-import ctaButton from './objects/ctaButton'
-import imageGallery from './objects/imageGallery'
-import youtube from './objects/youtube'
-import socialEmbed from './objects/socialEmbed'
-import keyTakeaways from './objects/keyTakeaways'
 import progressSteps from './objects/readingProgress'
-import audioPlayer from './objects/audioPlayer'
-import relatedArticles from './objects/relatedArticles'
+import ctaButton from './objects/ctaButton'
 import newsletterCta from './objects/newsletterCta'
+import relatedArticles from './objects/relatedArticles'
 import recommendationBlock from './objects/recommendationBlock'
 
 export const schemaTypes = [
@@ -53,8 +45,8 @@ export const schemaTypes = [
   // --- Contenus Spécifiques ---
   portrait,
   video,
-  recit,
   recommendation,
+  teamMember,
 
   // --- Outils de Taxonomie ---
   verticale,
@@ -63,25 +55,22 @@ export const schemaTypes = [
   author,
   tag,
 
-  // --- Configuration ---
-  teamMember,
-  siteSettings,
-
   // --- Utilitaire ---
   blockContent,
 
-  // --- Blocs de contenu riches ---
+  // --- Blocs Rich Text ---
+  keyTakeaways,
+  youtube,
+  quote,
+  accordion,
+  imageGallery,
+  audioPlayer,
+  socialEmbed,
   styledQuote,
   callout,
-  accordion,
-  ctaButton,
-  imageGallery,
-  youtube,
-  socialEmbed,
-  keyTakeaways,
   progressSteps,
-  audioPlayer,
-  relatedArticles,
+  ctaButton,
   newsletterCta,
+  relatedArticles,
   recommendationBlock,
 ]

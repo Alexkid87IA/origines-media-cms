@@ -34,6 +34,28 @@ export default {
       group: 'infos'
     },
     {
+      name: 'formatVideo',
+      title: 'Format vidéo',
+      type: 'string',
+      options: {
+        list: [
+          { title: '📹 Reportage', value: 'reportages' },
+          { title: '💬 Témoignage', value: 'temoignages' },
+          { title: '▶️ Concept YouTube', value: 'youtube' },
+          { title: '⚡ Short', value: 'shorts' },
+          { title: '🔴 Live', value: 'live' },
+          { title: '📷 Vlog', value: 'vlogs' },
+          { title: '🔍 Décryptage', value: 'decryptages' },
+          { title: '🗣️ Débat', value: 'debats' },
+          { title: '👤 Portrait', value: 'portraits' },
+          { title: '📰 News', value: 'news' }
+        ],
+        layout: 'radio'
+      },
+      description: 'Le format détermine comment la vidéo est catégorisée sur le site',
+      group: 'infos'
+    },
+    {
       name: 'duree',
       title: 'Durée (secondes)',
       type: 'number',
@@ -44,6 +66,14 @@ export default {
       name: 'ordre',
       title: 'Ordre d\'affichage',
       type: 'number',
+      group: 'infos'
+    },
+    {
+      name: 'author',
+      title: 'Auteur',
+      type: 'reference',
+      to: [{ type: 'author' }],
+      description: 'Auteur/créateur de cette vidéo',
       group: 'infos'
     },
 

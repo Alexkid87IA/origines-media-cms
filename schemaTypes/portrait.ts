@@ -42,6 +42,14 @@ export default {
         type: 'number',
         group: 'infos'
       },
+      {
+        name: 'author',
+        title: 'Auteur',
+        type: 'reference',
+        to: [{ type: 'author' }],
+        description: 'Auteur de ce portrait',
+        group: 'infos'
+      },
 
       // === TAXONOMIE & RELATIONS ===
       {

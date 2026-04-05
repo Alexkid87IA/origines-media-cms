@@ -26,14 +26,16 @@ export default {
       type: 'string',
       options: {
         list: [
-          { title: '📚 Livre', value: 'livre' },
-          { title: '🎬 Film', value: 'film' },
-          { title: '🎧 Podcast', value: 'podcast' },
-          { title: '📺 Chaîne YouTube', value: 'youtube' },
-          { title: '📸 Compte Instagram', value: 'instagram' },
-          { title: '🎵 Livre audio', value: 'livre-audio' },
-          { title: '🏛️ Musée', value: 'musee' },
-          { title: '🎭 Théâtre', value: 'theatre' }
+          { title: '📚 Livre', value: 'livres' },
+          { title: '🎬 Film & Série', value: 'films-series' },
+          { title: '🎵 Musique', value: 'musique' },
+          { title: '🎧 Podcast', value: 'podcasts' },
+          { title: '📱 Réseaux sociaux', value: 'reseaux-sociaux' },
+          { title: '📺 YouTube', value: 'youtube' },
+          { title: '🏃 Activité', value: 'activite' },
+          { title: '✈️ Destination', value: 'destination' },
+          { title: '🎨 Culture', value: 'culture' },
+          { title: '🛍️ Produit', value: 'produit' }
         ],
         layout: 'radio'
       },
@@ -184,14 +186,16 @@ export default {
     },
     prepare({ title, type, auteur, media, coupDeCoeur }) {
       const typeIcons = {
-        'livre': '📚',
-        'film': '🎬',
-        'podcast': '🎧',
+        'livres': '📚',
+        'films-series': '🎬',
+        'musique': '🎵',
+        'podcasts': '🎧',
+        'reseaux-sociaux': '📱',
         'youtube': '📺',
-        'instagram': '📸',
-        'livre-audio': '🎵',
-        'musee': '🏛️',
-        'theatre': '🎭'
+        'activite': '🏃',
+        'destination': '✈️',
+        'culture': '🎨',
+        'produit': '🛍️'
       }
       const icon = typeIcons[type] || '📌'
       const heart = coupDeCoeur ? ' ❤️' : ''

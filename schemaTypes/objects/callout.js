@@ -31,8 +31,8 @@ export default {
     {
       name: 'content',
       title: 'Contenu',
-      type: 'text',
-      rows: 4,
+      type: 'array',
+      of: [{ type: 'block', styles: [{ title: 'Normal', value: 'normal' }] }],
       validation: Rule => Rule.required()
     },
     {

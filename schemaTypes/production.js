@@ -1,42 +1,31 @@
 export default {
   name: 'production',
-  title: 'Productions (Articles)',
+  title: 'Articles',
   type: 'document',
+  icon: () => '📝',
+  groups: [
+    { name: 'editorial', title: 'Éditorial', default: true },
+    { name: 'taxonomie', title: 'Classification' },
+    { name: 'seo', title: 'SEO & Metadata' },
+    { name: 'media', title: 'Médias' },
+    { name: 'relations', title: 'Relations' },
+    { name: 'stats', title: 'Stats & Flags' },
+  ],
   fields: [
+    // === ÉDITORIAL ===
     {
       name: 'titre',
       title: 'Titre',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: Rule => Rule.required(),
+      group: 'editorial'
     },
     {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      rows: 3
-    },
-    {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: {
-        hotspot: true
-      }
-    },
-    // ⭐ CHAMP MANQUANT - AJOUTEZ CECI !
-    {
-      name: 'verticale',
-      title: 'Verticale',
-      type: 'reference',
-      to: [{ type: 'verticale' }],
-      validation: Rule => Rule.required().error('Une verticale doit être sélectionnée'),
-      description: 'Choisissez la verticale à laquelle appartient cette production'
-    },
-    {
-      name: 'univers',
-      title: 'Univers',
-      type: 'reference',
-      to: [{ type: 'univers' }]
+      name: 'titleHtml',
+      title: 'Titre HTML',
+      type: 'string',
+      description: 'Titre avec <em> pour les mots en serif italic. Ex: Marie Curie <em>intime</em>',
+      group: 'editorial'
     },
     {
       name: 'slug',
@@ -45,160 +34,432 @@ export default {
       options: {
         source: 'titre',
         maxLength: 96
-      }
+      },
+      validation: Rule => Rule.required(),
+      group: 'editorial'
     },
     {
-      name: 'tempsLecture',
-      title: 'Temps de lecture (min)',
-      type: 'number'
+      name: 'deck',
+      title: 'Chapeau / Sous-titre',
+      type: 'text',
+      rows: 3,
+      description: '150-160 caractères. Résumé affiché sous le titre.',
+      validation: Rule => Rule.max(200),
+      group: 'editorial'
+    },
+    {
+      name: 'description',
+      title: 'Description (legacy)',
+      type: 'text',
+      rows: 3,
+      hidden: true
+    },
+    {
+      name: 'author',
+      title: 'Auteur',
+      type: 'reference',
+      to: [{ type: 'author' }],
+      group: 'editorial'
+    },
+    {
+      name: 'readTime',
+      title: 'Temps de lecture',
+      type: 'string',
+      description: 'Ex: "14 min"',
+      group: 'editorial'
     },
     {
       name: 'datePublication',
       title: 'Date de publication',
-      type: 'datetime'
+      type: 'datetime',
+      group: 'editorial'
     },
     {
-      name: 'vues',
-      title: 'Nombre de vues',
-      type: 'number',
-      initialValue: 0
-    },
-    {
-      name: 'likes',
-      title: 'Nombre de likes',
-      type: 'number',
-      initialValue: 0
-    },
-    {
-      name: 'isPopular',
-      title: 'Populaire ?',
-      type: 'boolean'
-    },
-    {
-      name: 'isRecent',
-      title: 'Récent ?',
-      type: 'boolean'
-    },
-    {
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      of: [{ type: 'string' }],
-      options: {
-        layout: 'tags'
-      }
+      name: 'updatedAt',
+      title: 'Dernière modification',
+      type: 'datetime',
+      group: 'editorial'
     },
     {
       name: 'contenu',
       title: 'Contenu',
-      type: 'array',
-      of: [
-        { type: 'block' },
-        { type: 'image' },
-        { type: 'keyTakeaways' },
-        { type: 'youtube' },
-        { type: 'quote' },
-        { type: 'accordion' }
-      ]
+      type: 'blockContent',
+      group: 'editorial'
     },
-    
-    // === NOUVEAUX CHAMPS AJOUTÉS ===
+
+    // === CLASSIFICATION ===
     {
-      name: 'formats',
-      title: 'Format associé',
+      name: 'univpilar',
+      title: 'Univers',
+      type: 'string',
+      options: {
+        list: [
+          { title: "L'Esprit", value: 'esprit' },
+          { title: 'Le Corps', value: 'corps' },
+          { title: 'Les Liens', value: 'liens' },
+          { title: 'Le Monde', value: 'monde' },
+          { title: "L'Avenir", value: 'avenir' },
+        ],
+        layout: 'radio'
+      },
+      validation: Rule => Rule.required(),
+      description: 'Univers principal (pilier éditorial)',
+      group: 'taxonomie'
+    },
+    {
+      name: 'universSecondaire',
+      title: 'Univers secondaire',
+      type: 'string',
+      options: {
+        list: [
+          { title: "L'Esprit", value: 'esprit' },
+          { title: 'Le Corps', value: 'corps' },
+          { title: 'Les Liens', value: 'liens' },
+          { title: 'Le Monde', value: 'monde' },
+          { title: "L'Avenir", value: 'avenir' },
+        ]
+      },
+      description: 'Optionnel — si l\'article touche 2 univers',
+      group: 'taxonomie'
+    },
+    {
+      name: 'soustopic',
+      title: 'Sous-topic SEO',
+      type: 'string',
+      options: {
+        list: [
+          // L'Esprit
+          { title: '🧠 Émotions', value: 'emotions' },
+          { title: '🧠 Conscience', value: 'conscience' },
+          { title: '🧠 Méditation', value: 'meditation' },
+          { title: '🧠 Développement personnel', value: 'developpement-personnel' },
+          { title: '🧠 Neurosciences', value: 'neurosciences' },
+          { title: '🧠 Philosophie', value: 'philosophie' },
+          { title: '🧠 Quête de sens', value: 'quete-de-sens' },
+          { title: '🧠 Thérapies', value: 'therapies' },
+          // Le Corps
+          { title: '💪 Nutrition', value: 'nutrition' },
+          { title: '💪 Sommeil', value: 'sommeil' },
+          { title: '💪 Mouvement', value: 'mouvement' },
+          { title: '💪 Prévention', value: 'prevention' },
+          { title: '💪 Médecine douce', value: 'medecine-douce' },
+          { title: '💪 Bien-être physique', value: 'bien-etre-physique' },
+          { title: '💪 Sport', value: 'sport' },
+          { title: '💪 Respiration', value: 'respiration' },
+          // Les Liens
+          { title: '🤝 Parentalité', value: 'parentalite' },
+          { title: '🤝 Couples', value: 'couples' },
+          { title: '🤝 Amitié', value: 'amitie' },
+          { title: '🤝 Éducation', value: 'education' },
+          { title: '🤝 Générations', value: 'generations' },
+          { title: '🤝 Communauté', value: 'communaute' },
+          { title: '🤝 Ruptures', value: 'ruptures' },
+          { title: '🤝 Enquêtes sociales', value: 'enquetes-sociales' },
+          // Le Monde
+          { title: '🌍 Récits de voyage', value: 'recits-de-voyage' },
+          { title: '🌍 Destinations', value: 'destinations' },
+          { title: '🌍 Art', value: 'art' },
+          { title: '🌍 Musique', value: 'musique' },
+          { title: '🌍 Littérature', value: 'litterature' },
+          { title: '🌍 Cinéma', value: 'cinema' },
+          { title: '🌍 Créativité', value: 'creativite' },
+          { title: '🌍 Photographie', value: 'photographie' },
+          // L'Avenir
+          { title: '🚀 Carrière', value: 'carriere' },
+          { title: '🚀 Entrepreneuriat', value: 'entrepreneuriat' },
+          { title: '🚀 Innovation', value: 'innovation' },
+          { title: '🚀 Intelligence artificielle', value: 'intelligence-artificielle' },
+          { title: '🚀 Économie', value: 'economie' },
+          { title: '🚀 Leadership', value: 'leadership' },
+          { title: '🚀 Numérique', value: 'numerique' },
+          { title: '🚀 Nomadisme', value: 'nomadisme' },
+        ]
+      },
+      description: 'Cluster SEO — page pilier: /univers/{univers}/{soustopic}/',
+      group: 'taxonomie'
+    },
+    {
+      name: 'rubrique',
+      title: 'Rubrique',
+      type: 'string',
+      options: {
+        list: [
+          { title: '01 Articles', value: 'articles' },
+          { title: '02 Collections', value: 'collections' },
+          { title: '03 Vidéos', value: 'videos' },
+          { title: '04 Guides', value: 'guides' },
+          { title: '05 Journal', value: 'journal' },
+          { title: '06 Boutique', value: 'boutique' },
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'articles',
+      validation: Rule => Rule.required(),
+      description: 'Rubrique de navigation (détermine l\'URL)',
+      group: 'taxonomie'
+    },
+    {
+      name: 'category',
+      title: 'Sous-catégorie',
+      type: 'string',
+      options: {
+        list: [
+          // Articles
+          { title: 'Comprendre', value: 'comprendre' },
+          { title: 'Réflexions', value: 'reflexions' },
+          { title: 'Témoignages', value: 'temoignages' },
+          { title: 'Guides', value: 'guides' },
+          { title: 'Portraits', value: 'portraits' },
+          // Collections
+          { title: 'Le Divan', value: 'le-divan' },
+          { title: 'Le Signal', value: 'le-signal' },
+          { title: 'La Lettre', value: 'la-lettre' },
+          { title: 'Le Carnet', value: 'le-carnet' },
+          { title: 'Le Virage', value: 'le-virage' },
+          // Vidéos
+          { title: 'Reportages', value: 'reportages' },
+          { title: 'Documentaires', value: 'documentaires' },
+          { title: 'Interviews', value: 'interviews' },
+          { title: 'Shorts', value: 'shorts' },
+          { title: 'Live', value: 'live' },
+          { title: 'Nos formats', value: 'formats' },
+          // Guides
+          { title: 'Masterclass', value: 'masterclass' },
+          { title: 'Ateliers', value: 'ateliers' },
+          { title: 'Programmes', value: 'programmes' },
+          { title: 'Kits gratuits', value: 'kits-gratuits' },
+          // Journal
+          { title: 'Lettre du dimanche', value: 'lettre-du-dimanche' },
+          { title: 'Question de la semaine', value: 'question-de-la-semaine' },
+          { title: 'Sondages', value: 'sondages' },
+          { title: 'Calendrier', value: 'calendrier' },
+        ]
+      },
+      description: 'Sous-catégorie au sein de la rubrique → URL: /rubrique/category/slug',
+      group: 'taxonomie'
+    },
+    {
+      name: 'tags',
+      title: 'Tags SEO',
       type: 'array',
-      of: [{
-        type: 'reference',
-        to: [{ type: 'format' }]
-      }],
-      description: 'Liez cette production à un ou plusieurs formats'
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' },
+      group: 'taxonomie'
+    },
+    // Anciens champs de référence — conservés pour la migration, cachés dans le studio
+    {
+      name: 'verticale',
+      title: 'Verticale (legacy)',
+      type: 'reference',
+      to: [{ type: 'verticale' }],
+      hidden: true
+    },
+    {
+      name: 'univers',
+      title: 'Univers (legacy)',
+      type: 'reference',
+      to: [{ type: 'univers' }],
+      hidden: true
+    },
+
+    // === SEO & METADATA ===
+    {
+      name: 'seoTitle',
+      title: 'Titre SEO',
+      type: 'string',
+      description: 'Override du <title>. 50-60 caractères. Laissez vide pour utiliser le titre.',
+      validation: Rule => Rule.max(70),
+      group: 'seo'
+    },
+    {
+      name: 'seoDescription',
+      title: 'Meta description',
+      type: 'text',
+      rows: 2,
+      description: '150-160 caractères. Laissez vide pour utiliser le chapeau.',
+      validation: Rule => Rule.max(170),
+      group: 'seo'
+    },
+
+    // === MÉDIAS ===
+    {
+      name: 'image',
+      title: 'Image hero',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Minimum 1200px de large, paysage, WebP/AVIF',
+      group: 'media'
+    },
+    {
+      name: 'heroAlt',
+      title: 'Alt de l\'image hero',
+      type: 'string',
+      description: 'Description alternative pour l\'accessibilité et le SEO',
+      group: 'media'
+    },
+    {
+      name: 'heroCredit',
+      title: 'Crédit photo',
+      type: 'string',
+      group: 'media'
+    },
+    {
+      name: 'imageUrl',
+      title: 'URL de l\'image (fallback)',
+      type: 'string',
+      description: 'URL directe si pas d\'upload',
+      group: 'media'
     },
     {
       name: 'videoUrl',
       title: 'URL de la vidéo',
       type: 'url',
-      description: 'Lien vers la vidéo complète (YouTube, Vimeo, etc.)'
+      description: 'URL YouTube embed (pour les contenus vidéo)',
+      group: 'media'
     },
     {
       name: 'videoPreview',
-      title: 'URL Preview Vidéo (courte)',
+      title: 'URL Preview Vidéo',
       type: 'url',
-      description: 'URL d\'une vidéo courte pour la preview au survol (10-30 secondes)'
+      group: 'media'
     },
     {
       name: 'duree',
-      title: 'Durée de la vidéo (minutes)',
-      type: 'number',
-      description: 'Durée en minutes (ex: 42 pour 42 minutes)'
-    },
-    {
-      name: 'saison',
-      title: 'Numéro de saison',
-      type: 'number',
-      validation: Rule => Rule.min(1)
-    },
-    {
-      name: 'episode',
-      title: 'Numéro d\'épisode',
-      type: 'number',
-      validation: Rule => Rule.min(0),
-      description: '0 pour les contenus spéciaux'
-    },
-    {
-      name: 'rating',
-      title: 'Note de l\'épisode',
-      type: 'number',
-      validation: Rule => Rule.min(0).max(5).precision(1),
-      description: 'De 0 à 5 (ex: 4.8)'
-    },
-    {
-      name: 'typeContenu',
-      title: 'Type de contenu',
+      title: 'Durée vidéo (ISO 8601)',
       type: 'string',
-      options: {
-        list: [
-          { title: 'Épisode régulier', value: 'regular' },
-          { title: 'Épisode spécial', value: 'special' },
-          { title: 'Contenu bonus', value: 'bonus' },
-          { title: 'Making-of', value: 'making-of' }
-        ],
-        layout: 'radio'
-      },
-      initialValue: 'regular'
+      description: 'Ex: PT12M30S pour 12 minutes 30 secondes',
+      group: 'media'
+    },
+
+    // === RELATIONS ===
+    {
+      name: 'relatedArticles',
+      title: 'Articles liés',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'production' }] }],
+      validation: Rule => Rule.max(3),
+      description: '2-3 articles liés pour le maillage interne',
+      group: 'relations'
+    },
+    {
+      name: 'formats',
+      title: 'Format / Colonne associé',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'format' }] }],
+      group: 'relations'
+    },
+
+    // === STATS & FLAGS ===
+    {
+      name: 'isFeatured',
+      title: 'Mis en avant (homepage)',
+      type: 'boolean',
+      initialValue: false,
+      group: 'stats'
+    },
+    {
+      name: 'isPremium',
+      title: 'Contenu premium (paywall)',
+      type: 'boolean',
+      initialValue: false,
+      group: 'stats'
     },
     {
       name: 'isLocked',
-      title: 'Contenu Premium (verrouillé)',
+      title: 'Verrouillé (legacy)',
       type: 'boolean',
-      description: 'Cochez si ce contenu nécessite un abonnement premium',
-      initialValue: false
+      hidden: true
     },
-    // Ajout pour améliorer l'affichage
     {
-      name: 'imageUrl',
-      title: 'URL de l\'image (temporaire)',
+      name: 'vues',
+      title: 'Nombre de vues',
+      type: 'number',
+      initialValue: 0,
+      group: 'stats'
+    },
+    {
+      name: 'likes',
+      title: 'Nombre de likes',
+      type: 'number',
+      initialValue: 0,
+      group: 'stats'
+    },
+
+    // Legacy fields — hidden
+    {
+      name: 'tempsLecture',
+      title: 'Temps de lecture (legacy)',
+      type: 'number',
+      hidden: true
+    },
+    {
+      name: 'isPopular',
+      type: 'boolean',
+      hidden: true
+    },
+    {
+      name: 'isRecent',
+      type: 'boolean',
+      hidden: true
+    },
+    {
+      name: 'saison',
+      type: 'number',
+      hidden: true
+    },
+    {
+      name: 'episode',
+      type: 'number',
+      hidden: true
+    },
+    {
+      name: 'rating',
+      type: 'number',
+      hidden: true
+    },
+    {
+      name: 'typeContenu',
       type: 'string',
-      description: 'URL directe de l\'image si pas d\'upload'
-    }
+      hidden: true
+    },
+    {
+      name: 'typeArticle',
+      type: 'string',
+      hidden: true
+    },
   ],
-  
+
+  orderings: [
+    {
+      title: 'Date de publication (récent)',
+      name: 'dateDesc',
+      by: [{ field: 'datePublication', direction: 'desc' }]
+    },
+    {
+      title: 'Titre A→Z',
+      name: 'titreAsc',
+      by: [{ field: 'titre', direction: 'asc' }]
+    },
+  ],
+
   preview: {
     select: {
       title: 'titre',
-      subtitle: 'description',
+      subtitle: 'deck',
       media: 'image',
-      saison: 'saison',
-      episode: 'episode',
-      verticale: 'verticale.nom'
+      univers: 'univpilar',
+      rubrique: 'rubrique',
+      category: 'category',
     },
     prepare(selection) {
-      const { title, subtitle, media, saison, episode, verticale } = selection
-      const episodeInfo = saison && episode ? ` - S${saison}E${episode}` : ''
-      const verticaleInfo = verticale ? ` (${verticale})` : ' ⚠️ Pas de verticale'
+      const { title, subtitle, media, univers, rubrique, category } = selection
+      const UNIVERS_LABELS = { esprit: "L'Esprit", corps: 'Le Corps', liens: 'Les Liens', monde: 'Le Monde', avenir: "L'Avenir" }
+      const uLabel = univers ? UNIVERS_LABELS[univers] : '⚠️ Pas d\'univers'
+      const catLabel = category ? `/${rubrique || 'articles'}/${category}/` : ''
       return {
-        title: title + episodeInfo,
-        subtitle: subtitle + verticaleInfo,
-        media: media
+        title,
+        subtitle: `${uLabel} ${catLabel}`,
+        media
       }
     }
   }

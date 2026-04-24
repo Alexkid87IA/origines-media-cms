@@ -4,19 +4,18 @@ import tag from './tag'
 
 // Types de contenu principaux
 import production from './production'
-import serie from './serie'
-import episode from './episode'
-
-// Types de contenu secondaires et spécifiques
 import portrait from './portrait'
 import video from './video'
 import recommendation from './recommendation'
 import teamMember from './teamMember'
 
-// Outils de taxonomie et de structuration
+// Taxonomie (legacy — conservés pour les données existantes, cachés dans le studio)
 import verticale from './verticale'
 import format from './format'
 import univers from './univers'
+
+// Paramètres
+import siteSettings from './siteSettings'
 
 // Types de blocs rich text
 import keyTakeaways from './keyTakeaways'
@@ -39,21 +38,22 @@ import recommendationBlock from './objects/recommendationBlock'
 export const schemaTypes = [
   // --- Contenus Principaux ---
   production,
-  serie,
-  episode,
-
-  // --- Contenus Spécifiques ---
   portrait,
   video,
   recommendation,
-  teamMember,
 
-  // --- Outils de Taxonomie ---
-  verticale,
-  format,
-  univers,
+  // --- Équipe ---
+  teamMember,
   author,
+
+  // --- Taxonomie (legacy, conservé pour migration) ---
+  verticale,
+  univers,
+  format,
   tag,
+
+  // --- Paramètres ---
+  siteSettings,
 
   // --- Utilitaire ---
   blockContent,

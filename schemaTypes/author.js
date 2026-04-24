@@ -4,10 +4,11 @@ export default defineType({
   name: 'author',
   title: 'Auteurs',
   type: 'document',
+  icon: () => '✍️',
   fields: [
     defineField({
       name: 'name',
-      title: 'Nom',
+      title: 'Nom complet',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
@@ -20,37 +21,34 @@ export default defineType({
         maxLength: 96,
       },
       validation: Rule => Rule.required(),
+      description: 'URL: /equipe/{slug}',
     }),
     defineField({
       name: 'role',
-      title: 'Rôle / Titre',
+      title: 'Rôle',
       type: 'string',
-      description: 'Ex: Co-fondateur et président, Rédacteur, Journaliste...',
+      description: 'Ex: "Grand reporter · L\'Esprit", "Journaliste · Les Liens"',
     }),
     defineField({
       name: 'image',
       title: 'Photo',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
+      options: { hotspot: true },
+      description: 'Photo carrée, minimum 400x400px',
     }),
     defineField({
       name: 'bio',
       title: 'Biographie',
       type: 'text',
       rows: 4,
-      description: 'Courte présentation de l\'auteur',
+      description: 'E-E-A-T : bio professionnelle détaillée pour Google Discover',
     }),
     defineField({
       name: 'specialites',
-      title: 'Spécialités / Terrain de jeu',
+      title: 'Spécialités',
       type: 'array',
       of: [{ type: 'string' }],
-      options: {
-        layout: 'tags'
-      },
-      description: 'Ex: Société, Tech, Psychologie...',
+      options: { layout: 'tags' },
     }),
     defineField({
       name: 'social',

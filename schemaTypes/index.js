@@ -7,6 +7,7 @@ import production from './production'
 import portrait from './portrait'
 import video from './video'
 import recommendation from './recommendation'
+import questionDeLaSemaine from './questionDeLaSemaine'
 import teamMember from './teamMember'
 
 // Taxonomie (legacy — conservés pour les données existantes, cachés dans le studio)
@@ -41,6 +42,7 @@ export const schemaTypes = [
   portrait,
   video,
   recommendation,
+  questionDeLaSemaine,
 
   // --- Équipe ---
   teamMember,

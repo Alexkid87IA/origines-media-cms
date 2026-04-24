@@ -3,6 +3,7 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import ArticlePreview from './components/ArticlePreview'
+import {OpenPreviewAction} from './components/OpenPreviewAction'
 
 const UNIVERS = [
   { id: 'esprit', title: "L'Esprit", icon: '🧠' },
@@ -123,10 +124,62 @@ export default defineConfig({
               .title('Recommandations')
               .icon(() => '⭐')
               .child(
-                S.documentTypeList('production')
+                S.list()
                   .title('Recommandations')
-                  .filter('_type == "production" && rubrique == "collections"')
-                  .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                  .items([
+                    S.listItem()
+                      .title('Toutes les recommandations')
+                      .icon(() => '📋')
+                      .child(
+                        S.documentTypeList('recommendation')
+                          .title('Toutes les recommandations')
+                          .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                      ),
+                    S.divider(),
+                    ...[
+                      { id: 'livre', title: 'Livres', icon: '📚' },
+                      { id: 'film', title: 'Films & Séries', icon: '🎬' },
+                      { id: 'podcast', title: 'Podcasts', icon: '🎧' },
+                      { id: 'musique', title: 'Musique', icon: '🎵' },
+                      { id: 'youtube', title: 'YouTube', icon: '📺' },
+                      { id: 'activite', title: 'Activités', icon: '🏃' },
+                      { id: 'destination', title: 'Destinations', icon: '✈️' },
+                      { id: 'culture', title: 'Culture', icon: '🎨' },
+                      { id: 'produit', title: 'Produits', icon: '🛍️' },
+                      { id: 'reseaux-sociaux', title: 'Réseaux sociaux', icon: '📱' },
+                    ].map((cat) =>
+                      S.listItem()
+                        .title(cat.title)
+                        .icon(() => cat.icon)
+                        .child(
+                          S.documentTypeList('recommendation')
+                            .title(`Recommandations — ${cat.title}`)
+                            .filter('_type == "recommendation" && type == $type')
+                            .params({ type: cat.id })
+                            .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                        )
+                    ),
+                    S.divider(),
+                    S.listItem()
+                      .title('Coups de coeur')
+                      .icon(() => '❤️')
+                      .child(
+                        S.documentTypeList('recommendation')
+                          .title('Coups de coeur')
+                          .filter('_type == "recommendation" && coupDeCoeur == true')
+                          .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                      ),
+                  ])
+              ),
+
+            // --- Question de la semaine ---
+            S.listItem()
+              .title('Question de la semaine')
+              .icon(() => '❓')
+              .child(
+                S.documentTypeList('questionDeLaSemaine')
+                  .title('Questions de la semaine')
+                  .defaultOrdering([{ field: 'annee', direction: 'desc' }, { field: 'semaine', direction: 'desc' }])
               ),
 
             S.divider(),
@@ -173,5 +226,15 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+  },
+
+  document: {
+    actions: (prev, context) => {
+      // Add the "Preview sur le site" action for production documents
+      if (context.schemaType === 'production') {
+        return [...prev, OpenPreviewAction]
+      }
+      return prev
+    },
   },
 })

@@ -26,10 +26,10 @@ export default {
       type: 'string',
       options: {
         list: [
-          { title: '📚 Livre', value: 'livres' },
-          { title: '🎬 Film & Série', value: 'films-series' },
+          { title: '📚 Livre', value: 'livre' },
+          { title: '🎬 Film & Série', value: 'film' },
           { title: '🎵 Musique', value: 'musique' },
-          { title: '🎧 Podcast', value: 'podcasts' },
+          { title: '🎧 Podcast', value: 'podcast' },
           { title: '📱 Réseaux sociaux', value: 'reseaux-sociaux' },
           { title: '📺 YouTube', value: 'youtube' },
           { title: '🏃 Activité', value: 'activite' },
@@ -68,6 +68,42 @@ export default {
       title: 'Lien externe',
       type: 'url',
       description: 'Lien vers Amazon, Netflix, Spotify, YouTube, le site officiel, etc.',
+      group: 'infos'
+    },
+
+    // === ITEMS (les recommandations individuelles) ===
+    {
+      name: 'items',
+      title: 'Les recommandations',
+      type: 'array',
+      of: [{
+        type: 'object',
+        name: 'recommendationItem',
+        fields: [
+          { name: 'titre', title: 'Titre', type: 'string', validation: Rule => Rule.required() },
+          { name: 'auteurItem', title: 'Auteur / Créateur', type: 'string' },
+          { name: 'annee', title: 'Année', type: 'string' },
+          { name: 'description', title: 'Description', type: 'text', rows: 3 },
+          { name: 'lien', title: 'Lien externe', type: 'url' },
+          { name: 'note', title: 'Note (sur 5)', type: 'number', options: { list: [1, 2, 3, 4, 5] } },
+          {
+            name: 'image',
+            title: 'Image / Couverture',
+            type: 'image',
+            options: { hotspot: true },
+            description: 'Upload direct (couverture livre, affiche film, etc.)'
+          },
+          {
+            name: 'imageUrl',
+            title: 'URL de l\'image (fallback)',
+            type: 'url',
+            description: 'URL externe si pas d\'upload (ex: couverture via API Google Books, affiche TMDB)'
+          },
+        ],
+        preview: {
+          select: { title: 'titre', subtitle: 'auteurItem', media: 'image' },
+        }
+      }],
       group: 'infos'
     },
 
@@ -186,10 +222,10 @@ export default {
     },
     prepare({ title, type, auteur, media, coupDeCoeur }) {
       const typeIcons = {
-        'livres': '📚',
-        'films-series': '🎬',
+        'livre': '📚',
+        'film': '🎬',
         'musique': '🎵',
-        'podcasts': '🎧',
+        'podcast': '🎧',
         'reseaux-sociaux': '📱',
         'youtube': '📺',
         'activite': '🏃',

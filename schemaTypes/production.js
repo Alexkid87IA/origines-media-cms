@@ -400,6 +400,18 @@ export default {
 
     // ── Portraits ──
     {
+      name: 'sourceVideo',
+      title: 'Vidéo source',
+      type: 'reference',
+      to: [{ type: 'production' }],
+      options: {
+        filter: 'rubrique == "videos"',
+      },
+      description: 'La vidéo dont cet article est issu',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'portraits',
+    },
+    {
       name: 'portraitPhoto',
       title: 'Photo portrait',
       type: 'image',

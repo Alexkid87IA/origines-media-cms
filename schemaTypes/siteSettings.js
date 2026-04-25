@@ -5,57 +5,89 @@ export default {
   icon: () => '⚙️',
   // Singleton - un seul document de ce type
   __experimental_actions: ['update', 'publish'],
+  groups: [
+    { name: 'curation', title: 'Curation Homepage', default: true },
+    { name: 'identite', title: 'Identité' },
+    { name: 'visuels', title: 'Visuels' },
+    { name: 'social', title: 'Réseaux sociaux' },
+    { name: 'contact', title: 'Contact' },
+    { name: 'newsletter', title: 'Newsletter' },
+    { name: 'analytics', title: 'Analytics' },
+  ],
   fields: [
+    // === CURATION HOMEPAGE ===
+    {
+      name: 'articleALaUne',
+      title: 'Article à la une (Héros)',
+      type: 'reference',
+      to: [{ type: 'production' }],
+      description: 'Article affiché en grand sur le héros de la homepage. Si vide, le plus récent est utilisé.',
+      group: 'curation',
+    },
+    {
+      name: 'choixDeLaRedaction',
+      title: 'Choix de la rédaction (Section 2)',
+      type: 'reference',
+      to: [{ type: 'production' }],
+      description: 'Article mis en avant dans "Ce qu\'on a choisi pour vous". Si vide, l\'article le plus vu est utilisé.',
+      group: 'curation',
+    },
     // === IDENTITÉ ===
     {
       name: 'siteName',
       title: 'Nom du site',
       type: 'string',
-      initialValue: 'Origines Media'
+      initialValue: 'Origines Media',
+      group: 'identite',
     },
     {
       name: 'tagline',
       title: 'Slogan',
       type: 'string',
-      description: 'Phrase d\'accroche du site'
+      description: 'Phrase d\'accroche du site',
+      group: 'identite',
     },
     {
       name: 'description',
       title: 'Description SEO',
       type: 'text',
       rows: 3,
-      description: 'Description pour les moteurs de recherche'
+      description: 'Description pour les moteurs de recherche',
+      group: 'identite',
     },
     // === VISUELS ===
     {
       name: 'logo',
       title: 'Logo',
       type: 'image',
-      options: {
-        hotspot: true
-      }
+      options: { hotspot: true },
+      group: 'visuels',
     },
     {
       name: 'logoUrl',
       title: 'URL logo (fallback)',
-      type: 'url'
+      type: 'url',
+      group: 'visuels',
     },
     {
       name: 'favicon',
       title: 'Favicon',
-      type: 'image'
+      type: 'image',
+      group: 'visuels',
     },
     {
       name: 'ogImage',
       title: 'Image Open Graph',
       type: 'image',
-      description: 'Image par défaut pour le partage sur les réseaux sociaux'
+      description: 'Image par défaut pour le partage sur les réseaux sociaux',
+      group: 'visuels',
     },
     // === RÉSEAUX SOCIAUX ===
     {
       name: 'reseauxSociaux',
       title: 'Réseaux sociaux',
       type: 'object',
+      group: 'social',
       fields: [
         {
           name: 'instagram',
@@ -94,6 +126,7 @@ export default {
       name: 'contact',
       title: 'Informations de contact',
       type: 'object',
+      group: 'contact',
       fields: [
         {
           name: 'email',
@@ -123,6 +156,7 @@ export default {
       name: 'newsletter',
       title: 'Newsletter',
       type: 'object',
+      group: 'newsletter',
       fields: [
         {
           name: 'titre',
@@ -149,6 +183,7 @@ export default {
       name: 'analytics',
       title: 'Analytics',
       type: 'object',
+      group: 'analytics',
       fields: [
         {
           name: 'googleAnalyticsId',

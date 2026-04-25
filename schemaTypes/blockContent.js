@@ -167,6 +167,12 @@ export default defineType({
       title: 'Articles liés'
     }),
 
+    // ========== CHECKLIST INTERACTIVE ==========
+    defineArrayMember({
+      type: 'checklist',
+      title: 'Checklist interactive'
+    }),
+
     // ========== RECOMMANDATIONS ==========
     defineArrayMember({
       type: 'recommendationBlock',

@@ -39,7 +39,13 @@ export default {
       name: 'source',
       title: 'Source (optionnel)',
       type: 'string',
-      description: 'Pour les statistiques ou citations'
+      description: 'Nom de la source (pour les statistiques ou citations)'
+    },
+    {
+      name: 'sourceUrl',
+      title: 'URL de la source',
+      type: 'url',
+      description: 'Lien cliquable vers la source'
     }
   ],
   preview: {

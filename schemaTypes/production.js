@@ -8,6 +8,7 @@ export default {
     { name: 'taxonomie', title: 'Classification' },
     { name: 'seo', title: 'SEO & Metadata' },
     { name: 'media', title: 'Médias' },
+    { name: 'typeEditorial', title: 'Type editorial' },
     { name: 'relations', title: 'Relations' },
     { name: 'stats', title: 'Stats & Flags' },
   ],
@@ -279,6 +280,163 @@ export default {
       description: '150-160 caractères. Laissez vide pour utiliser le chapeau.',
       validation: Rule => Rule.max(170),
       group: 'seo'
+    },
+
+    // === TYPE ÉDITORIAL — champs conditionnels selon category ===
+
+    // ── Comprendre ──
+    {
+      name: 'articleKeyTakeaways',
+      title: 'Points clés',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: '3-5 points clés affichés en encadré',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'comprendre',
+    },
+    {
+      name: 'articleSources',
+      title: 'Sources',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'name', title: 'Nom / Titre', type: 'string', validation: Rule => Rule.required() },
+          { name: 'url', title: 'URL', type: 'url' },
+          { name: 'year', title: 'Année', type: 'string' },
+          {
+            name: 'type',
+            title: 'Type',
+            type: 'string',
+            options: {
+              list: [
+                { title: 'Étude scientifique', value: 'study' },
+                { title: 'Livre', value: 'book' },
+                { title: 'Article presse', value: 'press' },
+                { title: 'Rapport / Statistique', value: 'report' },
+                { title: 'Expert / Interview', value: 'expert' },
+              ],
+            },
+          },
+        ],
+        preview: {
+          select: { name: 'name', year: 'year', type: 'type' },
+          prepare({ name, year, type }) {
+            return { title: name, subtitle: [type, year].filter(Boolean).join(' · ') }
+          },
+        },
+      }],
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'comprendre',
+    },
+    {
+      name: 'articleFaq',
+      title: 'FAQ (schema markup)',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'question', title: 'Question', type: 'string', validation: Rule => Rule.required() },
+          { name: 'answer', title: 'Réponse', type: 'text', rows: 3, validation: Rule => Rule.required() },
+        ],
+        preview: { select: { title: 'question' } },
+      }],
+      description: 'Questions/réponses pour le schema FAQPage (SEO)',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'comprendre',
+    },
+
+    // ── Réflexions ──
+    {
+      name: 'pullQuote',
+      title: 'Citation mise en avant',
+      type: 'text',
+      rows: 3,
+      description: 'Citation forte extraite de l\'article, affichée en exergue',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'reflexions',
+    },
+    {
+      name: 'authorNote',
+      title: 'Note de l\'auteur',
+      type: 'text',
+      rows: 4,
+      description: 'Mot personnel de l\'auteur sur cet essai',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'reflexions',
+    },
+
+    // ── Témoignages ──
+    {
+      name: 'temoignPrenom',
+      title: 'Prénom du témoin',
+      type: 'string',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'temoignages',
+    },
+    {
+      name: 'temoignAge',
+      title: 'Âge du témoin',
+      type: 'number',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'temoignages',
+    },
+    {
+      name: 'temoignVille',
+      title: 'Ville du témoin',
+      type: 'string',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'temoignages',
+    },
+    {
+      name: 'isAnonymous',
+      title: 'Témoignage anonyme',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Si coché, le prénom est remplacé par un pseudonyme',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'temoignages',
+    },
+
+    // ── Portraits ──
+    {
+      name: 'portraitPhoto',
+      title: 'Photo portrait',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Photo portrait de la personne (obligatoire pour les portraits)',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'portraits',
+    },
+    {
+      name: 'portraitRole',
+      title: 'Fonction / Rôle',
+      type: 'string',
+      description: 'Ex: "Photographe humanitaire", "Fondateur de…"',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'portraits',
+    },
+    {
+      name: 'interviewQuestions',
+      title: 'Questions / Réponses',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'question', title: 'Question', type: 'string', validation: Rule => Rule.required() },
+          {
+            name: 'answer',
+            title: 'Réponse',
+            type: 'array',
+            of: [{ type: 'block' }],
+            validation: Rule => Rule.required(),
+          },
+        ],
+        preview: { select: { title: 'question' } },
+      }],
+      description: 'Format interview : questions de la rédaction + réponses',
+      group: 'typeEditorial',
+      hidden: ({ document }) => document?.category !== 'portraits',
     },
 
     // === MÉDIAS ===

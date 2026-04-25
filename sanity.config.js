@@ -75,15 +75,42 @@ export default defineConfig({
                   ])
               ),
 
-            // --- Portraits (histoires) ---
+            // --- Par type éditorial ---
             S.listItem()
-              .title('Portraits')
-              .icon(() => '👤')
+              .title('Par type éditorial')
+              .icon(() => '🏷️')
               .child(
-                S.documentTypeList('production')
-                  .title('Portraits / Histoires')
-                  .filter('_type == "production" && category == "portraits"')
-                  .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                S.list()
+                  .title('Par type éditorial')
+                  .items([
+                    ...[
+                      { id: 'comprendre', title: 'Comprendre', icon: '📖' },
+                      { id: 'reflexions', title: 'Réflexions', icon: '💭' },
+                      { id: 'temoignages', title: 'Témoignages', icon: '🗣️' },
+                      { id: 'portraits', title: 'Portraits', icon: '👤' },
+                    ].map((cat) =>
+                      S.listItem()
+                        .title(cat.title)
+                        .icon(() => cat.icon)
+                        .child(
+                          S.documentTypeList('production')
+                            .title(cat.title)
+                            .filter('_type == "production" && category == $cat')
+                            .params({ cat: cat.id })
+                            .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                        )
+                    ),
+                    S.divider(),
+                    S.listItem()
+                      .title('⚠️ Sans type')
+                      .icon(() => '⚠️')
+                      .child(
+                        S.documentTypeList('production')
+                          .title('Articles sans catégorie')
+                          .filter('_type == "production" && rubrique == "articles" && !defined(category)')
+                          .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                      ),
+                  ])
               ),
 
             // --- Vidéos ---
@@ -112,6 +139,39 @@ export default defineConfig({
                           S.documentTypeList('production')
                             .title(`Vidéos — ${u.title}`)
                             .filter('_type == "production" && rubrique == "videos" && univpilar == $univers')
+                            .params({ univers: u.id })
+                            .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                        )
+                    ),
+                  ])
+              ),
+
+            // --- Guides ---
+            S.listItem()
+              .title('Guides')
+              .icon(() => '📘')
+              .child(
+                S.list()
+                  .title('Guides par univers')
+                  .items([
+                    S.listItem()
+                      .title('Tous les guides')
+                      .icon(() => '📋')
+                      .child(
+                        S.documentTypeList('production')
+                          .title('Tous les guides')
+                          .filter('_type == "production" && category == "guides"')
+                          .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
+                      ),
+                    S.divider(),
+                    ...UNIVERS.map((u) =>
+                      S.listItem()
+                        .title(u.title)
+                        .icon(() => u.icon)
+                        .child(
+                          S.documentTypeList('production')
+                            .title(`Guides — ${u.title}`)
+                            .filter('_type == "production" && category == "guides" && univpilar == $univers')
                             .params({ univers: u.id })
                             .defaultOrdering([{ field: 'datePublication', direction: 'desc' }])
                         )
@@ -172,14 +232,49 @@ export default defineConfig({
                   ])
               ),
 
-            // --- Question de la semaine ---
+            // --- Dossiers (Question de la semaine) ---
             S.listItem()
-              .title('Question de la semaine')
-              .icon(() => '❓')
+              .title('Dossiers')
+              .icon(() => '📂')
               .child(
-                S.documentTypeList('questionDeLaSemaine')
-                  .title('Questions de la semaine')
-                  .defaultOrdering([{ field: 'annee', direction: 'desc' }, { field: 'semaine', direction: 'desc' }])
+                S.list()
+                  .title('Dossiers')
+                  .items([
+                    S.listItem()
+                      .title('Dossier en cours')
+                      .icon(() => '🟢')
+                      .child(
+                        S.documentTypeList('questionDeLaSemaine')
+                          .title('Dossier actif')
+                          .filter('_type == "questionDeLaSemaine" && isActive == true')
+                      ),
+                    S.listItem()
+                      .title('Articles Dossier')
+                      .icon(() => '📝')
+                      .child(
+                        S.documentTypeList('articleDossier')
+                          .title('Tous les articles dossier')
+                          .defaultOrdering([{ field: 'jourNumero', direction: 'asc' }])
+                      ),
+                    S.divider(),
+                    S.listItem()
+                      .title('Tous les dossiers')
+                      .icon(() => '📋')
+                      .child(
+                        S.documentTypeList('questionDeLaSemaine')
+                          .title('Tous les dossiers')
+                          .defaultOrdering([{ field: 'annee', direction: 'desc' }, { field: 'semaine', direction: 'desc' }])
+                      ),
+                    S.listItem()
+                      .title('Archives')
+                      .icon(() => '🗄️')
+                      .child(
+                        S.documentTypeList('questionDeLaSemaine')
+                          .title('Dossiers archivés')
+                          .filter('_type == "questionDeLaSemaine" && isActive != true')
+                          .defaultOrdering([{ field: 'annee', direction: 'desc' }, { field: 'semaine', direction: 'desc' }])
+                      ),
+                  ])
               ),
 
             S.divider(),

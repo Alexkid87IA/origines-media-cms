@@ -8,6 +8,7 @@ import portrait from './portrait'
 import video from './video'
 import recommendation from './recommendation'
 import questionDeLaSemaine from './questionDeLaSemaine'
+import articleDossier from './articleDossier'
 import teamMember from './teamMember'
 
 // Taxonomie (legacy — conservés pour les données existantes, cachés dans le studio)
@@ -35,6 +36,7 @@ import ctaButton from './objects/ctaButton'
 import newsletterCta from './objects/newsletterCta'
 import relatedArticles from './objects/relatedArticles'
 import recommendationBlock from './objects/recommendationBlock'
+import checklist from './objects/checklist'
 
 export const schemaTypes = [
   // --- Contenus Principaux ---
@@ -43,6 +45,7 @@ export const schemaTypes = [
   video,
   recommendation,
   questionDeLaSemaine,
+  articleDossier,
 
   // --- Équipe ---
   teamMember,
@@ -75,4 +78,5 @@ export const schemaTypes = [
   newsletterCta,
   relatedArticles,
   recommendationBlock,
+  checklist,
 ]

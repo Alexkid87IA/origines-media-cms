@@ -26,8 +26,8 @@ export default {
           {
             name: 'answer',
             title: 'Réponse / Contenu',
-            type: 'text',
-            rows: 4,
+            type: 'array',
+            of: [{ type: 'block' }],
             validation: Rule => Rule.required()
           },
           {

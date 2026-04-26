@@ -30,8 +30,10 @@ export default {
           },
           {
             name: 'alt',
-            title: 'Texte alternatif (SEO)',
-            type: 'string'
+            title: 'Texte alternatif (SEO & accessibilité)',
+            type: 'string',
+            description: 'Décris ce que montre l\'image en 5-15 mots.',
+            validation: Rule => Rule.required().warning('Texte alternatif recommandé.'),
           },
           {
             name: 'credit',

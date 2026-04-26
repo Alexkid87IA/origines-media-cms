@@ -29,7 +29,16 @@ export default {
       type: 'image',
       options: {
         hotspot: true
-      }
+      },
+      fields: [
+        {
+          name: 'alt',
+          title: 'Texte alternatif (SEO & accessibilité)',
+          type: 'string',
+          description: 'Décris ce que montre l\'image en 5-15 mots.',
+          validation: Rule => Rule.required().warning('Un texte alternatif est fortement recommandé pour le SEO.'),
+        },
+      ],
     },
     {
       name: 'imageUrl',

@@ -87,8 +87,9 @@ export default defineType({
         {
           name: 'alt',
           type: 'string',
-          title: 'Texte alternatif (SEO)',
-          description: 'Important pour le référencement et l\'accessibilité'
+          title: 'Texte alternatif (SEO & accessibilité)',
+          description: 'Décris ce que montre l\'image en 5-15 mots.',
+          validation: Rule => Rule.required().warning('Texte alternatif recommandé.'),
         },
         {
           name: 'credit',

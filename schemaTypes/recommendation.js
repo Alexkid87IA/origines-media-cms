@@ -60,6 +60,15 @@ export default {
       options: {
         hotspot: true
       },
+      fields: [
+        {
+          name: 'alt',
+          title: 'Texte alternatif (SEO & accessibilité)',
+          type: 'string',
+          description: 'Décris ce que montre l\'image en 5-15 mots.',
+          validation: Rule => Rule.required().warning('Un texte alternatif est fortement recommandé pour le SEO.'),
+        },
+      ],
       description: 'Couverture du livre, affiche du film, visuel du podcast, etc.',
       group: 'infos'
     },
@@ -91,6 +100,15 @@ export default {
             title: 'Image / Couverture',
             type: 'image',
             options: { hotspot: true },
+            fields: [
+              {
+                name: 'alt',
+                title: 'Texte alternatif (SEO & accessibilité)',
+                type: 'string',
+                description: 'Décris ce que montre l\'image en 5-15 mots.',
+                validation: Rule => Rule.required().warning('Un texte alternatif est fortement recommandé pour le SEO.'),
+              },
+            ],
             description: 'Upload direct (couverture livre, affiche film, etc.)'
           },
           {

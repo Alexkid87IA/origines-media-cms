@@ -416,6 +416,15 @@ export default {
       title: 'Photo portrait',
       type: 'image',
       options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          title: 'Texte alternatif (SEO & accessibilité)',
+          type: 'string',
+          description: 'Décris ce que montre l\'image en 5-15 mots.',
+          validation: Rule => Rule.required().warning('Un texte alternatif est fortement recommandé pour le SEO.'),
+        },
+      ],
       description: 'Photo portrait de la personne (obligatoire pour les portraits)',
       group: 'typeEditorial',
       hidden: ({ document }) => document?.category !== 'portraits',
@@ -457,6 +466,15 @@ export default {
       title: 'Image hero',
       type: 'image',
       options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          title: 'Texte alternatif (SEO & accessibilité)',
+          type: 'string',
+          description: 'Décris ce que montre l\'image en 5-15 mots.',
+          validation: Rule => Rule.required().warning('Un texte alternatif est fortement recommandé pour le SEO.'),
+        },
+      ],
       description: 'Minimum 1200px de large, paysage, WebP/AVIF',
       group: 'media'
     },

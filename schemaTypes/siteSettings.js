@@ -89,6 +89,15 @@ export default {
       title: 'Logo',
       type: 'image',
       options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          title: 'Texte alternatif (SEO & accessibilité)',
+          type: 'string',
+          description: 'Décris ce que montre l\'image en 5-15 mots.',
+          validation: Rule => Rule.required().warning('Un texte alternatif est fortement recommandé pour le SEO.'),
+        },
+      ],
       group: 'visuels',
     },
     {
@@ -107,6 +116,15 @@ export default {
       name: 'ogImage',
       title: 'Image Open Graph',
       type: 'image',
+      fields: [
+        {
+          name: 'alt',
+          title: 'Texte alternatif (SEO & accessibilité)',
+          type: 'string',
+          description: 'Décris ce que montre l\'image en 5-15 mots.',
+          validation: Rule => Rule.required().warning('Un texte alternatif est fortement recommandé pour le SEO.'),
+        },
+      ],
       description: 'Image par défaut pour le partage sur les réseaux sociaux',
       group: 'visuels',
     },

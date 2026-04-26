@@ -35,6 +35,19 @@ export default defineConfig({
         S.list()
           .title('Origines Media')
           .items([
+            // --- Curation ---
+            S.listItem()
+              .title('Les unes du jour')
+              .icon(() => '📰')
+              .child(
+                S.editor()
+                  .schemaType('siteSettings')
+                  .documentId('siteSettings')
+                  .title('Les unes du jour')
+              ),
+
+            S.divider(),
+
             // --- Articles par univers ---
             S.listItem()
               .title('Articles')

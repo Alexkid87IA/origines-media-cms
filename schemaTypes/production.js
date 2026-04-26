@@ -488,6 +488,34 @@ export default {
       group: 'media'
     },
     {
+      name: 'programme',
+      title: 'Programme',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Il était une fois', value: 'il-etait-une-fois' },
+          { title: 'État d\'esprit', value: 'etat-d-esprit' },
+          { title: 'Transmission', value: 'transmission' },
+          { title: 'Secrets pro.', value: 'secrets-pro' },
+          { title: 'Imagine', value: 'imagine' },
+          { title: 'La lettre', value: 'la-lettre' },
+        ],
+        layout: 'dropdown'
+      },
+      description: 'Programme Origines Prod auquel cette vidéo appartient.',
+      group: 'media',
+      hidden: ({ document }) => document?.rubrique !== 'videos',
+    },
+    {
+      name: 'isOriginal',
+      title: 'Vidéo Origines (originale)',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Coché = vidéo produite par Origines. Décoché = vidéo curatée / embed d\'une autre chaîne.',
+      group: 'media',
+      hidden: ({ document }) => document?.rubrique !== 'videos',
+    },
+    {
       name: 'videoPreview',
       title: 'URL Preview Vidéo',
       type: 'url',

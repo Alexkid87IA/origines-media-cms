@@ -17,11 +17,39 @@ export default {
   fields: [
     // === CURATION HOMEPAGE ===
     {
+      name: 'unesDuJour',
+      title: 'Les unes du jour',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'production' }],
+          options: {
+            filter: 'rubrique == "articles" && defined(image.asset)',
+          },
+        },
+      ],
+      validation: (Rule) => Rule.max(5).unique(),
+      description: 'Sélectionnez jusqu\'à 5 articles pour le carrousel "Les unes du jour" sur la page Média. Si vide, les 5 articles les plus récents sont utilisés.',
+      group: 'curation',
+    },
+    {
       name: 'articleALaUne',
-      title: 'Article à la une (Héros)',
+      title: 'Article à la une (Héros Homepage)',
       type: 'reference',
       to: [{ type: 'production' }],
       description: 'Article affiché en grand sur le héros de la homepage. Si vide, le plus récent est utilisé.',
+      group: 'curation',
+    },
+    {
+      name: 'videoALaUne',
+      title: 'Vidéo à la une (Héros)',
+      type: 'reference',
+      to: [{ type: 'production' }],
+      options: {
+        filter: 'rubrique == "videos" && defined(videoUrl)',
+      },
+      description: 'Vidéo affichée dans le héros de la homepage. Si vide, une vidéo Origines récente est utilisée.',
       group: 'curation',
     },
     {

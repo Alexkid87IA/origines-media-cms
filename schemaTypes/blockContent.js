@@ -179,5 +179,11 @@ export default defineType({
       type: 'recommendationBlock',
       title: 'Recommandation (livre, film, podcast...)'
     }),
+
+    // ========== AFFILIATION ==========
+    defineArrayMember({
+      type: 'affiliateBlock',
+      title: 'Produits affiliés'
+    }),
   ],
 })

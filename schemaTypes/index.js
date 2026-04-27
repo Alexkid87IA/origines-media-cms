@@ -7,6 +7,7 @@ import production from './production'
 import portrait from './portrait'
 import video from './video'
 import recommendation from './recommendation'
+import affiliateProduct from './affiliateProduct'
 import questionDeLaSemaine from './questionDeLaSemaine'
 import articleDossier from './articleDossier'
 import teamMember from './teamMember'
@@ -36,6 +37,7 @@ import ctaButton from './objects/ctaButton'
 import newsletterCta from './objects/newsletterCta'
 import relatedArticles from './objects/relatedArticles'
 import recommendationBlock from './objects/recommendationBlock'
+import affiliateBlock from './objects/affiliateBlock'
 import checklist from './objects/checklist'
 
 export const schemaTypes = [
@@ -44,6 +46,7 @@ export const schemaTypes = [
   portrait,
   video,
   recommendation,
+  affiliateProduct,
   questionDeLaSemaine,
   articleDossier,
 
@@ -78,5 +81,6 @@ export const schemaTypes = [
   newsletterCta,
   relatedArticles,
   recommendationBlock,
+  affiliateBlock,
   checklist,
 ]

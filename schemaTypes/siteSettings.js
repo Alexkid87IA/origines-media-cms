@@ -60,6 +60,25 @@ export default {
       description: 'Article mis en avant dans "Ce qu\'on a choisi pour vous". Si vide, l\'article le plus vu est utilisé.',
       group: 'curation',
     },
+    {
+      name: 'guideGratuitALaUne',
+      title: 'Guide gratuit à la une (Héros, colonne 3 haut)',
+      type: 'reference',
+      to: [{ type: 'production' }],
+      options: {
+        filter: 'rubrique == "guides" && category == "kits-gratuits"',
+      },
+      description: 'Guide gratuit affiché en colonne 3 haut du hero. Si vide, le guide gratuit le plus récent est utilisé.',
+      group: 'curation',
+    },
+    {
+      name: 'produitBoutiqueALaUne',
+      title: 'Produit boutique à la une (Héros, colonne 3 bas)',
+      type: 'reference',
+      to: [{ type: 'boutiqueProduct' }],
+      description: 'Produit boutique affiché en colonne 3 bas du hero. Si vide, le bloc Boutique n\'est pas affiché.',
+      group: 'curation',
+    },
     // === IDENTITÉ ===
     {
       name: 'siteName',

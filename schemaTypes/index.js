@@ -8,6 +8,7 @@ import portrait from './portrait'
 import video from './video'
 import recommendation from './recommendation'
 import affiliateProduct from './affiliateProduct'
+import boutiqueProduct from './boutiqueProduct'
 import questionDeLaSemaine from './questionDeLaSemaine'
 import articleDossier from './articleDossier'
 import teamMember from './teamMember'
@@ -47,6 +48,7 @@ export const schemaTypes = [
   video,
   recommendation,
   affiliateProduct,
+  boutiqueProduct,
   questionDeLaSemaine,
   articleDossier,
 

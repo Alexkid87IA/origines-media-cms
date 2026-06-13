@@ -56,6 +56,13 @@ export default {
       hidden: true
     },
     {
+      name: 'metaHero',
+      title: 'Méta hero (optionnel)',
+      type: 'string',
+      description: 'Sous-titre éditorial affiché dans le bloc "Article à la une" du hero (ex: "Enquête · N°09"). Utilisé uniquement si cet article est curé en une.',
+      group: 'editorial',
+    },
+    {
       name: 'author',
       title: 'Auteur',
       type: 'reference',

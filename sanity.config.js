@@ -245,6 +245,52 @@ export default defineConfig({
                   ])
               ),
 
+            // --- Boutique ---
+            S.listItem()
+              .title('Boutique')
+              .icon(() => '🎁')
+              .child(
+                S.list()
+                  .title('Boutique — Produits')
+                  .items([
+                    S.listItem()
+                      .title('Tous les produits')
+                      .icon(() => '📋')
+                      .child(
+                        S.documentTypeList('boutiqueProduct')
+                          .title('Tous les produits')
+                          .defaultOrdering([
+                            { field: 'featured', direction: 'desc' },
+                            { field: 'popular', direction: 'desc' },
+                            { field: 'title', direction: 'asc' },
+                          ])
+                      ),
+                    S.divider(),
+                    ...UNIVERS.map((u) =>
+                      S.listItem()
+                        .title(u.title)
+                        .icon(() => u.icon)
+                        .child(
+                          S.documentTypeList('boutiqueProduct')
+                            .title(`Produits — ${u.title}`)
+                            .filter('_type == "boutiqueProduct" && category == $univers')
+                            .params({ univers: u.id })
+                            .defaultOrdering([{ field: 'title', direction: 'asc' }])
+                        )
+                    ),
+                    S.divider(),
+                    S.listItem()
+                      .title('Mis en avant')
+                      .icon(() => '⭐')
+                      .child(
+                        S.documentTypeList('boutiqueProduct')
+                          .title('Produits mis en avant')
+                          .filter('_type == "boutiqueProduct" && featured == true')
+                          .defaultOrdering([{ field: 'title', direction: 'asc' }])
+                      ),
+                  ])
+              ),
+
             // --- Dossiers (Question de la semaine) ---
             S.listItem()
               .title('Dossiers')
